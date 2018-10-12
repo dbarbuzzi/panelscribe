@@ -4,6 +4,8 @@ import (
 	"gopkg.in/alecthomas/kingpin.v2"
 )
 
+var version = "dev"
+
 // SmudgeToml defines the top-level structure of the TOML file
 type SmudgeToml struct {
 	Tags   []string              `toml:"tags"`
@@ -24,7 +26,7 @@ var (
 )
 
 func main() {
-	kingpin.Version("0.0.1")
+	kingpin.Version(version)
 	switch kingpin.Parse() {
 	case "init":
 		initAction(*initBasenameArg, *initPagesArg)
