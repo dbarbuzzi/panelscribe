@@ -1,0 +1,12 @@
+// +build mage
+
+package main
+
+import (
+	"os/exec"
+)
+
+func Build() error {
+	cmd := exec.Command("goreleaser", "release", "--rm-dist", "--skip-publish")
+	return cmd.Run()
+}
