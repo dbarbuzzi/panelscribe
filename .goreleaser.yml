@@ -1,3 +1,4 @@
+project_name: smudgetools
 release:
   github:
     owner: dbarbuzzi
@@ -14,7 +15,7 @@ archive:
     - goos: windows
       format: zip
 checksum:
-  name_template: 'checksums.txt'
+  name_template: '{ .ProjectName }}_{{ .Version }}_checksums.txt'
 snapshot:
   name_template: "{{ .Tag }}-next"
 changelog:
@@ -23,7 +24,6 @@ changelog:
     exclude:
     - '^docs:'
     - '^test:'
-
 build:
   binary: smudge
   ldflags: -s -w
