@@ -26,7 +26,7 @@ changelog:
     - '^test:'
 build:
   binary: smudge
-  ldflags: -s -w
+  ldflags: "-s -w -X main.version={{ .Version }}"
   goos:
     - darwin
     - linux
