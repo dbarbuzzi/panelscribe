@@ -15,14 +15,14 @@ type SmudgeToml struct {
 
 var (
 	// init subcommand
-	initCommand     = kingpin.Command("init", "initalize")
-	initBasenameArg = initCommand.Arg("basename", "Basename/shortname of the comic").Required().String()
-	initPagesArg    = initCommand.Arg("num_pages", "Number of pages in the comic").Required().Int()
+	initCmd         = kingpin.Command("init", "initalize")
+	initCmdBasename = initCmd.Arg("basename", "Basename/shortname of the comic").Required().String()
+	initCmdPages    = initCmd.Arg("num_pages", "Number of pages in the comic").Required().Int()
 
 	// check subcommand
-	checkCommand         = kingpin.Command("check", "check")
-	checkTomlFiles       = checkCommand.Arg("file", "TOML file to be checked").Required().Strings()
-	checkAllowedTagsFile = checkCommand.Flag("tagfile", "TOML file containing list of allowed tags").Short('t').String()
+	checkCmd         = kingpin.Command("check", "check")
+	checkCmdFiles    = checkCmd.Arg("file", "TOML file to be checked").Required().Strings()
+	checkCmdTagsFile = checkCmd.Flag("tagfile", "TOML file containing list of allowed tags").Short('t').String()
 
 	// quote subcommand
 	quoteCmd       = kingpin.Command("quote", "generate quote group templates")
@@ -35,9 +35,9 @@ func main() {
 	kingpin.Version(version)
 	switch kingpin.Parse() {
 	case "init":
-		initAction(*initBasenameArg, *initPagesArg)
+		initAction(*initCmdBasename, *initCmdPages)
 	case "check":
-		checkAction(*checkTomlFiles, *checkAllowedTagsFile)
+		checkAction(*checkCmdFiles, *checkCmdTagsFile)
 	case "quote":
 		quoteAction(*quoteCmdGroups, *quoteCmdFlip, *quoteCmdPrint)
 	}
