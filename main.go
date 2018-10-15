@@ -23,6 +23,12 @@ var (
 	checkCommand         = kingpin.Command("check", "check")
 	checkTomlFiles       = checkCommand.Arg("file", "TOML file to be checked").Required().Strings()
 	checkAllowedTagsFile = checkCommand.Flag("tagfile", "TOML file containing list of allowed tags").Short('t').String()
+
+	// quote subcommand
+	quoteCmd       = kingpin.Command("quote", "generate quote group templates")
+	quoteCmdGroups = quoteCmd.Arg("groups", "quote groups per page").Required().String()
+	quoteCmdFlip   = quoteCmd.Flag("flip", "change external separator location to the bottom").Short('f').Bool()
+	quoteCmdPrint  = quoteCmd.Flag("print", "print to stdout instead of copying to clipboard").Short('p').Bool()
 )
 
 func main() {
@@ -32,5 +38,7 @@ func main() {
 		initAction(*initBasenameArg, *initPagesArg)
 	case "check":
 		checkAction(*checkTomlFiles, *checkAllowedTagsFile)
+	case "quote":
+		quoteAction(*quoteCmdGroups, *quoteCmdFlip, *quoteCmdPrint)
 	}
 }
