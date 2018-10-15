@@ -36,3 +36,19 @@ build:
     - 386
   env:
     - CGO_ENABLED=0
+brew:
+  name: smudgetools
+  github:
+    owner: dbarbuzzi
+    name: hombrew-tap
+  download_strategy: GitHubPrivateRepositoryReleaseDownloadStrategy
+  commit_author:
+    name: dbarbuzzi
+    email: dbarbuzzi@gmail.com
+  folder: Formula
+  homepage: "https://github.com/dbarbuzzi/smudgetools"
+  description: "Tools for my work with smudge comics"
+  test: |
+    system "#{bin}/smudge --version"
+  install: |
+    bin.install "smudge"
