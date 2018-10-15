@@ -1,6 +1,8 @@
 package main
 
 import (
+	"log"
+
 	"gopkg.in/alecthomas/kingpin.v2"
 )
 
@@ -33,12 +35,18 @@ var (
 
 func main() {
 	kingpin.Version(version)
+
+	var err error
 	switch kingpin.Parse() {
 	case "init":
 		initAction(*initCmdBasename, *initCmdPages)
 	case "check":
 		checkAction(*checkCmdFiles, *checkCmdTagsFile)
 	case "quote":
-		quoteAction(*quoteCmdGroups, *quoteCmdFlip, *quoteCmdPrint)
+		err = quoteAction(*quoteCmdGroups, *quoteCmdFlip, *quoteCmdPrint)
+	}
+
+	if err != nil {
+		log.Fatalln(err)
 	}
 }

@@ -57,7 +57,25 @@ func executePbcopy(data []byte) error {
 	return nil
 }
 
+func validateQuoteGroupArg(arg string) error {
+	if _, err := strconv.Atoi(arg); err != nil {
+		return fmt.Errorf("arg must be an integer, got %s", arg)
+	}
+
+	for i, r := range arg {
+		if r == '0' {
+			return fmt.Errorf("arg should only contain positive integers, had '0' at position %d", i)
+		}
+	}
+
+	return nil
+}
+
 func quoteAction(quoteGroups string, flip, print bool) error {
+	if err := validateQuoteGroupArg(quoteGroups); err != nil {
+		return err
+	}
+
 	qg, err := buildQuoteGroups(quoteGroups, flip)
 	if err != nil {
 		return err
