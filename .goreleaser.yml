@@ -40,7 +40,7 @@ brew:
   name: smudgetools
   github:
     owner: dbarbuzzi
-    name: hombrew-tap
+    name: homebrew-tap
   download_strategy: GitHubPrivateRepositoryReleaseDownloadStrategy
   commit_author:
     name: dbarbuzzi
