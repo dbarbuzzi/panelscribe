@@ -3,7 +3,6 @@ release:
   github:
     owner: dbarbuzzi
     name: smudgetools
-  draft: true
 archive:
   replacements:
     darwin: macOS
