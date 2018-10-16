@@ -46,3 +46,12 @@ brew:
     system "#{bin}/smudge --version"
   install: |
     bin.install "smudge"
+scoop:
+  bucket:
+    owner: dbarbuzzi
+    name: scoop-bucket
+  commit_author:
+    name: dbarbuzzi
+    email: dbarbuzzi@gmail.com
+  homepage: "https://github.com/dbarbuzzi/smudgetools"
+  description: "Tools for my work with smudge comics"
