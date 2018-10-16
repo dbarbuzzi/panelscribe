@@ -39,7 +39,7 @@ func main() {
 	var err error
 	switch kingpin.Parse() {
 	case "init":
-		initAction(*initCmdBasename, *initCmdPages)
+		err = initAction(*initCmdBasename, *initCmdPages)
 	case "check":
 		checkAction(*checkCmdFiles, *checkCmdTagsFile)
 	case "quote":
