@@ -3,7 +3,6 @@ release:
   github:
     owner: dbarbuzzi
     name: smudgetools
-  draft: true
 archive:
   replacements:
     darwin: macOS
@@ -18,12 +17,6 @@ checksum:
   name_template: '{{ .ProjectName }}_{{ .Version }}_checksums.txt'
 snapshot:
   name_template: "{{ .Tag }}-next"
-changelog:
-  sort: asc
-  filters:
-    exclude:
-    - '^docs:'
-    - '^test:'
 build:
   binary: smudge
   ldflags: "-s -w -X main.version={{ .Version }}"
@@ -40,7 +33,7 @@ brew:
   name: smudgetools
   github:
     owner: dbarbuzzi
-    name: hombrew-tap
+    name: homebrew-tap
   download_strategy: GitHubPrivateRepositoryReleaseDownloadStrategy
   commit_author:
     name: dbarbuzzi
@@ -52,3 +45,12 @@ brew:
     system "#{bin}/smudge --version"
   install: |
     bin.install "smudge"
+scoop:
+  bucket:
+    owner: dbarbuzzi
+    name: scoop-bucket
+  commit_author:
+    name: dbarbuzzi
+    email: dbarbuzzi@gmail.com
+  homepage: "https://github.com/dbarbuzzi/smudgetools"
+  description: "Tools for my work with smudge comics"
