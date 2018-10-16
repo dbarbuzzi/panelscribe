@@ -62,18 +62,20 @@ func writeInitialMd(basename, data string) error {
 }
 
 // initAction initializes meta (TOML) and transcript (Markdown) files
-func initAction(basename string, numPages int) {
+func initAction(basename string, numPages int) error {
 	// Create the initial TOML file
 	tomlData := createBaseToml(numPages)
 	err := writeInitialToml(basename, tomlData)
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	// Create the initial Markdown file
 	md := createBaseMd(basename, numPages)
 	err = writeInitialMd(basename, md)
 	if err != nil {
-		panic(err)
+		return err
 	}
+
+	return nil
 }
