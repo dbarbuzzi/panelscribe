@@ -44,6 +44,7 @@ func createBaseMd(title string, numPages int) string {
 
 	for i := 1; i <= numPages; i++ {
 		line := fmt.Sprintf("## Page %d <page%d.jpg>\n", i, i)
+		lines = append(lines, []string{"", "upper placeholder", "", "---", "", "lower placeholder", ""}...)
 		lines = append(lines, line)
 	}
 
