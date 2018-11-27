@@ -40,11 +40,11 @@ func writeInitialToml(basename string, data SmudgeToml) error {
 }
 
 func createBaseMd(title string, numPages int) string {
-	lines := []string{fmt.Sprintf("# %s\n", title)}
+	lines := []string{fmt.Sprintf("# %s", title), ""}
 
 	for i := 1; i <= numPages; i++ {
-		line := fmt.Sprintf("## Page %d <page%d.jpg>\n", i, i)
-		lines = append(lines, line)
+		line := fmt.Sprintf("## Page %d <page%d.jpg>", i, i)
+		lines = append(lines, []string{line, "", "upper_text", "", "---", "", "lower_text", ""}...)
 	}
 
 	return strings.Join(lines, "\n")

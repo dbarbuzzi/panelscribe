@@ -51,17 +51,17 @@ func TestCreateBaseMd(t *testing.T) {
 		{
 			desc:     "simple name, single page",
 			input:    fields{"comic", 1},
-			expected: "# comic\n\n## Page 1 <page1.jpg>\n",
+			expected: "# comic\n\n## Page 1 <page1.jpg>\n\nupper_text\n\n---\n\nlower_text\n",
 		},
 		{
 			desc:     "simple name, two pages",
 			input:    fields{"comic", 2},
-			expected: "# comic\n\n## Page 1 <page1.jpg>\n\n## Page 2 <page2.jpg>\n",
+			expected: "# comic\n\n## Page 1 <page1.jpg>\n\nupper_text\n\n---\n\nlower_text\n\n## Page 2 <page2.jpg>\n\nupper_text\n\n---\n\nlower_text\n",
 		},
 		{
 			desc:     "simple name, five pages",
 			input:    fields{"Hero Man Stories – Hero Man 1: Hero Man Enters", 5},
-			expected: "# Hero Man Stories – Hero Man 1: Hero Man Enters\n\n## Page 1 <page1.jpg>\n\n## Page 2 <page2.jpg>\n\n## Page 3 <page3.jpg>\n\n## Page 4 <page4.jpg>\n\n## Page 5 <page5.jpg>\n",
+			expected: "# Hero Man Stories – Hero Man 1: Hero Man Enters\n\n## Page 1 <page1.jpg>\n\nupper_text\n\n---\n\nlower_text\n\n## Page 2 <page2.jpg>\n\nupper_text\n\n---\n\nlower_text\n\n## Page 3 <page3.jpg>\n\nupper_text\n\n---\n\nlower_text\n\n## Page 4 <page4.jpg>\n\nupper_text\n\n---\n\nlower_text\n\n## Page 5 <page5.jpg>\n\nupper_text\n\n---\n\nlower_text\n",
 		},
 	}
 
