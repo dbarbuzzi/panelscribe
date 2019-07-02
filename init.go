@@ -11,7 +11,7 @@ import (
 func createBaseToml(numPages int) SmudgeToml {
 	var res SmudgeToml
 
-	res.Tags = []string{}
+	res.Meta = NewSmudgeMeta()
 	res.Chars = make(map[string]string)
 	res.Scenes = make(map[string][][]string)
 

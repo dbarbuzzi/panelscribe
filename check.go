@@ -42,32 +42,49 @@ func loadAllowedTagsToml(tomlPath string) ([]string, error) {
 	return res.Tags, err
 }
 
-func validateTagList(data SmudgeToml, allowed []string) []string {
+func validateMetaBlock(data SmudgeToml, allowedTags []string) []string {
+	results := []string{}
+
+	// validate misc tag lists
+	if res := validateTagList(data.Meta.Pairings, allowedTags, "pairings"); len(res) > 0 {
+		results = append(results, res...)
+	}
+	if res := validateTagList(data.Meta.Themes, allowedTags, "themes"); len(res) > 0 {
+		results = append(results, res...)
+	}
+	if res := validateTagList(data.Meta.Locations, allowedTags, "locations"); len(res) > 0 {
+		results = append(results, res...)
+	}
+
+	return results
+}
+
+func validateTagList(tagList, allowed []string, name string) []string {
 	results := []string{}
 
 	// check that it’s not empty
-	if len(data.Tags) == 0 {
-		results = append(results, "error: [tags] tag list is empty")
+	if len(tagList) == 0 {
+		results = append(results, fmt.Sprintf("error: %s tag list is empty", name))
 	}
 
 	// check if they’re sorted
-	if !sort.StringsAreSorted(data.Tags) {
-		results = append(results, "warn: [tags] tag list is not in alphabetical order")
-		sort.Strings(data.Tags)
-		sorted := strings.Join(data.Tags, "\", \"")
-		results = append(results, fmt.Sprintf("info: [tags] sorted - \"%s\"", sorted))
+	if !sort.StringsAreSorted(tagList) {
+		results = append(results, fmt.Sprintf("warn: %s tag list is not in alphabetical order", name))
+		sort.Strings(tagList)
+		sorted := strings.Join(tagList, "\", \"")
+		results = append(results, fmt.Sprintf("info: %s tag list sorted - \"%s\"", name, sorted))
 	}
 
 	// check for duplicates
-	if hasDupes(data.Tags) {
-		results = append(results, "error: [tags] tag list contains duplicate entries")
+	if hasDupes(tagList) {
+		results = append(results, fmt.Sprintf("error: %s tag list contains duplicate entries", name))
 	}
 
 	// check that it only includes tags from master tag list
 	if len(allowed) > 0 {
-		for _, tag := range data.Tags {
+		for _, tag := range tagList {
 			if !contains(allowed, tag) {
-				results = append(results, fmt.Sprintf("error: [tags] tag “%s” not found in allowed tag list", tag))
+				results = append(results, fmt.Sprintf("error: %s tag “%s” not found in allowed tag list", name, tag))
 			}
 		}
 	}
@@ -125,7 +142,7 @@ func validateSceneList(data SmudgeToml) []string {
 func validateSmudgeToml(data SmudgeToml, allowedTags []string) []string {
 	results := []string{}
 
-	results = append(results, validateTagList(data, allowedTags)...)
+	results = append(results, validateMetaBlock(data, allowedTags)...)
 	results = append(results, validateCharList(data)...)
 	results = append(results, validateSceneList(data)...)
 
