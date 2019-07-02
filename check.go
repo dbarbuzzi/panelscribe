@@ -59,7 +59,6 @@ func validateMetaBlock(data SmudgeToml, allowedTags []string) []string {
 	return results
 }
 
-// Needs re-work
 func validateTagList(tagList, allowed []string, name string) []string {
 	results := []string{}
 
