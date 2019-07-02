@@ -1,8 +1,10 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"os/exec"
+	"runtime"
 	"strconv"
 	"strings"
 )
@@ -30,8 +32,8 @@ func buildQuoteGroups(groupCounts string, flip bool) (string, error) {
 	return res, nil
 }
 
-func executePbcopy(data []byte) error {
-	copyCmd := exec.Command("pbcopy")
+func pipeToCommand(data []byte, cmd string) error {
+	copyCmd := exec.Command(cmd)
 
 	inPipe, err := copyCmd.StdinPipe()
 	if err != nil {
@@ -51,6 +53,19 @@ func executePbcopy(data []byte) error {
 	}
 
 	return copyCmd.Wait()
+}
+
+func executeCopy(data []byte) error {
+	var cmd string
+	if runtime.GOOS == "windows" {
+		cmd = "clip"
+	} else if runtime.GOOS == "darwin" {
+		cmd = "pbcopy"
+	} else {
+		return errors.New("Unsupported platform")
+	}
+
+	return pipeToCommand(data, cmd)
 }
 
 func validateQuoteGroupArg(arg string) error {
@@ -80,7 +95,7 @@ func quoteAction(quoteGroups string, flip, print bool) error {
 	if print {
 		fmt.Println(qg)
 	} else {
-		err := executePbcopy([]byte(qg))
+		err := executeCopy([]byte(qg))
 		if err != nil {
 			return err
 		}
