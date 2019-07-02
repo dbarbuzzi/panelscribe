@@ -50,11 +50,7 @@ func executePbcopy(data []byte) error {
 		return err
 	}
 
-	if err := copyCmd.Wait(); err != nil {
-		return err
-	}
-
-	return nil
+	return copyCmd.Wait()
 }
 
 func validateQuoteGroupArg(arg string) error {
