@@ -8,9 +8,24 @@ import (
 
 var version = "dev"
 
+// SmudgeTomlMeta defines the "meta" block in the smudge toml files
+type SmudgeTomlMeta struct {
+	Color     bool     `toml:"color"`
+	Con       bool     `toml:"con"`
+	Pairings  []string `toml:"pairings"`
+	Themes    []string `toml:"themes"`
+	Locations []string `toml:"locations"`
+}
+
+// NewSmudgeMeta creates a SmudgeTomlMeta with non-nil empty values
+func NewSmudgeMeta() SmudgeTomlMeta {
+	ss := []string{}
+	return SmudgeTomlMeta{Pairings: ss, Themes: ss, Locations: ss}
+}
+
 // SmudgeToml defines the top-level structure of the TOML file
 type SmudgeToml struct {
-	Tags   []string              `toml:"tags"`
+	Meta   SmudgeTomlMeta        `toml:"meta"`
 	Chars  map[string]string     `toml:"chars"`
 	Scenes map[string][][]string `toml:"scenes"`
 }
