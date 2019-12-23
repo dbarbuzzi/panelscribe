@@ -8,3 +8,5 @@ require (
 	github.com/magefile/mage v1.7.0
 	gopkg.in/alecthomas/kingpin.v2 v2.2.6
 )
+
+go 1.13

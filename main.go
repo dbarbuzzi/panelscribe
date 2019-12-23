@@ -32,17 +32,17 @@ type SmudgeToml struct {
 
 var (
 	// init subcommand
-	initCmd         = kingpin.Command("init", "initalize")
+	initCmd         = kingpin.Command("init", "initialize").Alias("i")
 	initCmdBasename = initCmd.Arg("basename", "Basename/shortname of the comic").Required().String()
 	initCmdPages    = initCmd.Arg("num_pages", "Number of pages in the comic").Required().Int()
 
 	// check subcommand
-	checkCmd         = kingpin.Command("check", "check")
+	checkCmd         = kingpin.Command("check", "check").Alias("c")
 	checkCmdFiles    = checkCmd.Arg("file", "TOML file to be checked").Required().Strings()
 	checkCmdTagsFile = checkCmd.Flag("tagfile", "TOML file containing list of allowed tags").Short('t').String()
 
 	// quote subcommand
-	quoteCmd       = kingpin.Command("quote", "generate quote group templates")
+	quoteCmd       = kingpin.Command("quote", "generate quote group templates").Alias("q")
 	quoteCmdGroups = quoteCmd.Arg("groups", "quote groups per page").Required().String()
 	quoteCmdFlip   = quoteCmd.Flag("flip", "change external separator location to the bottom").Short('f').Bool()
 	quoteCmdPrint  = quoteCmd.Flag("print", "print to stdout instead of copying to clipboard").Short('p').Bool()
