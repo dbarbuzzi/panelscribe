@@ -16,7 +16,7 @@ func TestCreateBaseToml(t *testing.T) {
 			desc:  "single page",
 			input: 1,
 			expected: SmudgeToml{
-				Tags:   []string{},
+				Meta:   NewSmudgeMeta(),
 				Chars:  map[string]string{},
 				Scenes: map[string][][]string{"p1": [][]string{}}},
 		},
@@ -24,7 +24,7 @@ func TestCreateBaseToml(t *testing.T) {
 			desc:  "two pages",
 			input: 2,
 			expected: SmudgeToml{
-				Tags:   []string{},
+				Meta:   NewSmudgeMeta(),
 				Chars:  map[string]string{},
 				Scenes: map[string][][]string{"p1": [][]string{}, "p2": [][]string{}}},
 		},
