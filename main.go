@@ -50,6 +50,7 @@ var (
 
 func main() {
 	kingpin.Version(version)
+	kingpin.CommandLine.HelpFlag.Short('h')
 
 	var err error
 	switch kingpin.Parse() {
