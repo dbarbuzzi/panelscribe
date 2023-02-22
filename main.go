@@ -32,7 +32,7 @@ type SmudgeToml struct {
 
 var (
 	// init subcommand
-	initCmd             = kingpin.Command("init", "initialize").Alias("i")
+	initCmd             = kingpin.Command("init", "initialize Markdown and TOML files for a new series").Alias("i")
 	initCmdLabel        = initCmd.Arg("label", "Label/shortname of the comic").Required().String()
 	initCmdPageCount    = initCmd.Arg("num_pages", "Number of pages in the comic").Required().Int()
 	initCmdPageLabel    = initCmd.Flag("page", "Use 'page' as page label (instead of series label)").Short('p').Bool()
@@ -40,12 +40,12 @@ var (
 	initCmdPageStartAll = initCmd.Flag("start-all", "Starting number for pages and filenames").Default("-1").Int()
 
 	// check subcommand
-	checkCmd         = kingpin.Command("check", "check").Alias("c")
+	checkCmd         = kingpin.Command("check", "check a TOML metadata file for correctness").Alias("c")
 	checkCmdFiles    = checkCmd.Arg("file", "TOML file to be checked").Required().Strings()
 	checkCmdTagsFile = checkCmd.Flag("tagfile", "TOML file containing list of allowed tags").Short('t').String()
 
 	// quote subcommand
-	quoteCmd       = kingpin.Command("quote", "generate quote group templates").Alias("q")
+	quoteCmd       = kingpin.Command("quote", "generate quote group templates to enter into Markdown file").Alias("q")
 	quoteCmdGroups = quoteCmd.Arg("groups", "quote groups per page").Required().String()
 	quoteCmdFlip   = quoteCmd.Flag("flip", "change external separator location to the bottom").Short('f').Bool()
 	quoteCmdPrint  = quoteCmd.Flag("print", "print to stdout instead of copying to clipboard").Short('p').Bool()
