@@ -1,3 +1,4 @@
+version: 2
 project_name: smudgetools
 release:
   github:
@@ -5,32 +6,31 @@ release:
     name: smudgetools
 archives:
   -
-    replacements:
-      darwin: macOS
-      linux: Linux
-      windows: Windows
     format_overrides:
+      - goos: darwin
+        formats: ["zip"]
       - goos: windows
-        format: zip
+        formats: ["zip"]
 checksum:
   name_template: '{{ .ProjectName }}_{{ .Version }}_checksums.txt'
 snapshot:
-  name_template: "{{ .Tag }}-next"
-build:
-  binary: smudge
-  ldflags: "-s -w -X main.version={{ .Version }}"
-  goos:
-    - darwin
-    - linux
-    - windows
-  goarch:
-    - amd64
-  env:
-    - CGO_ENABLED=0
+  version_template: "{{ .Tag }}-next"
+builds:
+  -
+    binary: smudge
+    ldflags: "-s -w -X main.version={{ .Version }}"
+    goos:
+      - darwin
+      - linux
+      - windows
+    goarch:
+      - amd64
+    env:
+      - CGO_ENABLED=0
 brews:
   -
     name: smudgetools
-    tap:
+    repository:
       owner: dbarbuzzi
       name: homebrew-tap
     download_strategy: GitHubPrivateRepositoryReleaseDownloadStrategy
@@ -38,19 +38,20 @@ brews:
     commit_author:
       name: dbarbuzzi
       email: dbarbuzzi@gmail.com
-    folder: Formula
+    directory: Formula
     homepage: "https://github.com/dbarbuzzi/smudgetools"
     description: "Tools for my work with smudge comics"
     test: |
       system "#{bin}/smudge --version"
     install: |
       bin.install "smudge"
-scoop:
-  bucket:
-    owner: dbarbuzzi
-    name: scoop-bucket
-  commit_author:
-    name: dbarbuzzi
-    email: dbarbuzzi@gmail.com
-  homepage: "https://github.com/dbarbuzzi/smudgetools"
-  description: "Tools for my work with smudge comics"
+scoops:
+  -
+    repository:
+      owner: dbarbuzzi
+      name: scoop-bucket
+    commit_author:
+      name: dbarbuzzi
+      email: dbarbuzzi@gmail.com
+    homepage: "https://github.com/dbarbuzzi/smudgetools"
+    description: "Tools for my work with smudge comics"
