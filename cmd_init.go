@@ -5,34 +5,34 @@ import (
 	"os"
 )
 
-// TODO: make all errors explicit/wrapped via fmt.Errorf
-
 func generateToml(series Series) error {
-	f, err := os.Create(fmt.Sprintf("%s.toml", series.Label))
-	if err != nil {
-		return err
-	}
-	defer f.Close()
-
 	tpl, err := getTemplate("toml")
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to get 'toml' template: %w", err)
 	}
+
+	filename := fmt.Sprintf("%s.toml", series.Label)
+	f, err := os.Create(filename)
+	if err != nil {
+		return fmt.Errorf("failed to create toml file '%s': %w", filename, err)
+	}
+	defer f.Close()
 
 	return tpl.Execute(f, series)
 }
 
 func generateMarkdown(series Series) error {
-	f, err := os.Create(fmt.Sprintf("%s.md", series.Label))
-	if err != nil {
-		return err
-	}
-	defer f.Close()
-
 	tpl, err := getTemplate("markdown")
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to get 'markdown' template: %w", err)
 	}
+
+	filename := fmt.Sprintf("%s.md", series.Label)
+	f, err := os.Create(filename)
+	if err != nil {
+		return fmt.Errorf("failed to create markdown file '%s': %w", filename, err)
+	}
+	defer f.Close()
 
 	return tpl.Execute(f, series)
 }

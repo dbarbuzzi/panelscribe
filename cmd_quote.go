@@ -9,23 +9,28 @@ import (
 	"strings"
 )
 
-func buildQuoteGroups(groupCounts string, flip bool) (string, error) {
+func buildQuoteGroups(groupCounts string, border string) (string, error) {
 	var groups []string
 
-	for _, gc := range groupCounts {
+	if border == "top" || border == "both" {
 		groups = append(groups, "---")
+	}
+
+	for i, gc := range groupCounts {
+		if i > 0 {
+			groups = append(groups, "---")
+		}
 		count, err := strconv.Atoi(string(gc))
 		if err != nil {
-			return "", err
+			return "", fmt.Errorf("failed to convert '%s' to int: %w", string(gc), err)
 		}
 		for i := 0; i < count; i++ {
 			groups = append(groups, "> ")
 		}
 	}
 
-	if flip {
-		// cut off first entry of "---" and “move” it to the end
-		groups = append(groups[1:], "---")
+	if border == "bottom" || border == "both" {
+		groups = append(groups, "---")
 	}
 
 	res := fmt.Sprintf("\n%s\n", strings.Join(groups, "\n\n"))
@@ -37,19 +42,19 @@ func pipeToCommand(data []byte, cmd string) error {
 
 	inPipe, err := copyCmd.StdinPipe()
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to retrieve stdin pipe: %w", err)
 	}
 
 	if err := copyCmd.Start(); err != nil {
-		return err
+		return fmt.Errorf("failed to start command: %w", err)
 	}
 
 	if _, err := inPipe.Write(data); err != nil {
-		return err
+		return fmt.Errorf("failed to write to stdin pipe: %w", err)
 	}
 
 	if err := inPipe.Close(); err != nil {
-		return err
+		return fmt.Errorf("failed to close stdin pipe: %w", err)
 	}
 
 	return copyCmd.Wait()
@@ -82,14 +87,14 @@ func validateQuoteGroupArg(arg string) error {
 	return nil
 }
 
-func quoteAction(quoteGroups string, flip, print bool) error {
+func quoteAction(quoteGroups string, border string, print bool) error {
 	if err := validateQuoteGroupArg(quoteGroups); err != nil {
-		return err
+		return fmt.Errorf("invalid args: %w", err)
 	}
 
-	qg, err := buildQuoteGroups(quoteGroups, flip)
+	qg, err := buildQuoteGroups(quoteGroups, border)
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to build quote groups: %w", err)
 	}
 
 	if print {
@@ -97,7 +102,7 @@ func quoteAction(quoteGroups string, flip, print bool) error {
 	} else {
 		err := executeCopy([]byte(qg))
 		if err != nil {
-			return err
+			return fmt.Errorf("failed to copy: %w", err)
 		}
 	}
 
