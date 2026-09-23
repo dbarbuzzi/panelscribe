@@ -10,7 +10,7 @@ func TestBuildQuoteGroupsSuccess(t *testing.T) {
 	// this will test successful calls
 	type fields struct {
 		groups string
-		flip   bool
+		border string
 	}
 	var tests = []struct {
 		desc     string
@@ -19,23 +19,33 @@ func TestBuildQuoteGroupsSuccess(t *testing.T) {
 	}{
 		{
 			desc:     "short, simple",
-			input:    fields{"21", false},
+			input:    fields{"21", "top"},
 			expected: "\n---\n\n> \n\n> \n\n---\n\n> \n",
 		},
 		{
-			desc:     "short, simple, flipped",
-			input:    fields{"21", true},
+			desc:     "short, simple, bottom",
+			input:    fields{"21", "bottom"},
 			expected: "\n> \n\n> \n\n---\n\n> \n\n---\n",
 		},
 		{
+			desc:     "short, simple, both",
+			input:    fields{"21", "both"},
+			expected: "\n---\n\n> \n\n> \n\n---\n\n> \n\n---\n",
+		},
+		{
+			desc:     "short, simple, none",
+			input:    fields{"21", "none"},
+			expected: "\n> \n\n> \n\n---\n\n> \n",
+		},
+		{
 			desc:     "medium, simple",
-			input:    fields{"2143", false},
+			input:    fields{"2143", "top"},
 			expected: "\n---\n\n> \n\n> \n\n---\n\n> \n\n---\n\n> \n\n> \n\n> \n\n> \n\n---\n\n> \n\n> \n\n> \n",
 		},
 	}
 
 	for _, test := range tests {
-		actual, err := buildQuoteGroups(test.input.groups, test.input.flip)
+		actual, err := buildQuoteGroups(test.input.groups, test.input.border)
 		if err != nil {
 			t.Errorf("%s: received error '%s', expected success", test.desc, err.Error())
 		}
@@ -49,7 +59,7 @@ func TestBuildQuoteGroupsFail(t *testing.T) {
 	// this will test error-producing calls
 	type fields struct {
 		groups string
-		flip   bool
+		border string
 	}
 	var tests = []struct {
 		desc     string
@@ -58,18 +68,18 @@ func TestBuildQuoteGroupsFail(t *testing.T) {
 	}{
 		{
 			desc:     "short, simple",
-			input:    fields{" 1", false},
-			expected: `strconv.Atoi: parsing " ": invalid syntax`,
+			input:    fields{" 1", "top"},
+			expected: `failed to convert ' ' to int: strconv.Atoi: parsing " ": invalid syntax`,
 		},
 		{
-			desc:     "short, simple, flipped",
-			input:    fields{"2.1", true},
-			expected: `strconv.Atoi: parsing ".": invalid syntax`,
+			desc:     "short, simple, bottom",
+			input:    fields{"2.1", "bottom"},
+			expected: `failed to convert '.' to int: strconv.Atoi: parsing ".": invalid syntax`,
 		},
 	}
 
 	for _, test := range tests {
-		_, err := buildQuoteGroups(test.input.groups, test.input.flip)
+		_, err := buildQuoteGroups(test.input.groups, test.input.border)
 		if err == nil {
 			t.Errorf("%s: received error was nil, expected failure", test.desc)
 		} else if diff := cmp.Diff(test.expected, err.Error()); diff != "" {

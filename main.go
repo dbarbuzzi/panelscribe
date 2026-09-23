@@ -47,7 +47,7 @@ var (
 	// quote subcommand
 	quoteCmd       = kingpin.Command("quote", "generate quote group templates to enter into Markdown file").Alias("q")
 	quoteCmdGroups = quoteCmd.Arg("groups", "quote groups per page").Required().String()
-	quoteCmdFlip   = quoteCmd.Flag("flip", "change external separator location to the bottom").Short('f').Bool()
+	quoteCmdBorder = quoteCmd.Flag("border", "which border(s) to put separator(s) on").Short('b').Default("top").Enum("top", "bottom", "both", "none")
 	quoteCmdPrint  = quoteCmd.Flag("print", "print to stdout instead of copying to clipboard").Short('p').Bool()
 )
 
@@ -71,7 +71,7 @@ func main() {
 	case "check":
 		checkAction(*checkCmdFiles, *checkCmdTagsFile)
 	case "quote":
-		err = quoteAction(*quoteCmdGroups, *quoteCmdFlip, *quoteCmdPrint)
+		err = quoteAction(*quoteCmdGroups, *quoteCmdBorder, *quoteCmdPrint)
 	}
 
 	if err != nil {
