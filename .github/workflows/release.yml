@@ -27,9 +27,21 @@ jobs:
         with:
           go-version: ">=1.27"
 
+      - name: Create GitHub app token
+        uses: actions/create-github-app-token@v3
+        id: app-token
+        with:
+          client-id: ${{ secrets.GORELEASER_APP_CLIENT_ID }}
+          private-key: ${{ secrets.GORELEASER_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: |-
+            homebrew-tap
+            scoop-bucket
+            smudgetools
+
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v7
         with:
           args: release --clean
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
