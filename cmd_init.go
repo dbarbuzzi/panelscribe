@@ -2,8 +2,16 @@ package main
 
 import (
 	"fmt"
+	"io"
+	"log"
 	"os"
 )
+
+func closeOrLog(c io.Closer, filename string) {
+	if err := c.Close(); err != nil {
+		log.Printf("error closing file '%s': %+v", filename, err)
+	}
+}
 
 func generateToml(series Series) error {
 	tpl, err := getTemplate("toml")
@@ -16,7 +24,7 @@ func generateToml(series Series) error {
 	if err != nil {
 		return fmt.Errorf("failed to create toml file '%s': %w", filename, err)
 	}
-	defer f.Close()
+	defer closeOrLog(f, filename)
 
 	return tpl.Execute(f, series)
 }
@@ -32,19 +40,23 @@ func generateMarkdown(series Series) error {
 	if err != nil {
 		return fmt.Errorf("failed to create markdown file '%s': %w", filename, err)
 	}
-	defer f.Close()
+	defer closeOrLog(f, filename)
 
 	return tpl.Execute(f, series)
 }
 
-func initAction(label, pageLabel string, pageCount, fnStart, pageOffset int) error {
+func initAction(label, pageLabel string, pageCount, fnStart, pageOffset int, textMode bool) error {
 	pages := make([]Page, 0, pageCount)
 	end := fnStart + pageCount
 	for i := fnStart; i < end; i++ {
 		page := Page{pageLabel, i + pageOffset, i}
 		pages = append(pages, page)
 	}
-	series := Series{label, pages}
+	placeholderText := "placeholder_text"
+	if textMode {
+		placeholderText = "top_placeholder\n\n---\n\nbottom_placeholder"
+	}
+	series := Series{label, pages, placeholderText}
 
 	if err := generateMarkdown(series); err != nil {
 		return fmt.Errorf("error generating Markdown file: %w", err)

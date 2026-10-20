@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"text/template"
 )
@@ -13,8 +12,9 @@ type Page struct {
 }
 
 type Series struct {
-	Label string
-	Pages []Page
+	Label           string
+	Pages           []Page
+	PlaceholderText string
 }
 
 const (
@@ -22,11 +22,7 @@ const (
 {{ range .Pages }}
 ## Page {{ .PageNum }} <{{ .Label }}{{ .FileNum }}.jpg>
 
-upper_text
-
----
-
-lower_text
+{{ $.PlaceholderText }}
 {{ end }}`
 
 	toml_template_text string = `[meta]
@@ -53,5 +49,5 @@ func getTemplate(key string) (*template.Template, error) {
 		return template.Must(template.New("").Parse(template_text)), nil
 	}
 
-	return nil, errors.New(fmt.Sprintf("error: key '%s' is not an eligible template", key))
+	return nil, fmt.Errorf("error: key '%s' is not an eligible template", key)
 }
