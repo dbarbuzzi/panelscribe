@@ -62,12 +62,13 @@ func pipeToCommand(data []byte, cmd string) error {
 
 func executeCopy(data []byte) error {
 	var cmd string
-	if runtime.GOOS == "windows" {
+	switch runtime.GOOS {
+	case "windows":
 		cmd = "clip"
-	} else if runtime.GOOS == "darwin" {
+	case "darwin":
 		cmd = "pbcopy"
-	} else {
-		return errors.New("Unsupported platform")
+	default:
+		return errors.New("unsupported platform")
 	}
 
 	return pipeToCommand(data, cmd)

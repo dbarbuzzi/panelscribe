@@ -60,7 +60,7 @@ func main() {
 	switch kingpin.Parse() {
 	case "init":
 		pageLabel := *initCmdLabel
-		if *initCmdPageLabel == true {
+		if *initCmdPageLabel {
 			pageLabel = "page"
 		}
 		fnStart := *initCmdPageStart

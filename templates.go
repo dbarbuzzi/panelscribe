@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"text/template"
 )
@@ -50,5 +49,5 @@ func getTemplate(key string) (*template.Template, error) {
 		return template.Must(template.New("").Parse(template_text)), nil
 	}
 
-	return nil, errors.New(fmt.Sprintf("error: key '%s' is not an eligible template", key))
+	return nil, fmt.Errorf("error: key '%s' is not an eligible template", key)
 }
