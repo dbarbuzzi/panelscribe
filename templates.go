@@ -13,8 +13,9 @@ type Page struct {
 }
 
 type Series struct {
-	Label string
-	Pages []Page
+	Label           string
+	Pages           []Page
+	PlaceholderText string
 }
 
 const (
@@ -22,11 +23,7 @@ const (
 {{ range .Pages }}
 ## Page {{ .PageNum }} <{{ .Label }}{{ .FileNum }}.jpg>
 
-upper_text
-
----
-
-lower_text
+{{ $.PlaceholderText }}
 {{ end }}`
 
 	toml_template_text string = `[meta]

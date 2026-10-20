@@ -37,14 +37,18 @@ func generateMarkdown(series Series) error {
 	return tpl.Execute(f, series)
 }
 
-func initAction(label, pageLabel string, pageCount, fnStart, pageOffset int) error {
+func initAction(label, pageLabel string, pageCount, fnStart, pageOffset int, textMode bool) error {
 	pages := make([]Page, 0, pageCount)
 	end := fnStart + pageCount
 	for i := fnStart; i < end; i++ {
 		page := Page{pageLabel, i + pageOffset, i}
 		pages = append(pages, page)
 	}
-	series := Series{label, pages}
+	placeholderText := "placeholder_text"
+	if textMode {
+		placeholderText = "top_placeholder\n\n---\n\nbottom_placeholder"
+	}
+	series := Series{label, pages, placeholderText}
 
 	if err := generateMarkdown(series); err != nil {
 		return fmt.Errorf("error generating Markdown file: %w", err)

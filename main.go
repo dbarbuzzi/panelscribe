@@ -38,6 +38,7 @@ var (
 	initCmdPageLabel    = initCmd.Flag("page", "Use 'page' as page label (instead of series label)").Short('p').Bool()
 	initCmdPageStart    = initCmd.Flag("start", "Starting filename number (does not affect page numbers)").Default("2").Short('s').Int()
 	initCmdPageStartAll = initCmd.Flag("start-all", "Starting number for pages and filenames").Default("-1").Int()
+	initCmdTextMode     = initCmd.Flag("text", "Enable text mode, where the page sections include top and bottom text placeholders").Short('t').Bool()
 
 	// check subcommand
 	checkCmd         = kingpin.Command("check", "check a TOML metadata file for correctness").Alias("c")
@@ -67,7 +68,7 @@ func main() {
 		if *initCmdPageStartAll != -1 {
 			pageOffset = 0
 		}
-		err = initAction(*initCmdLabel, pageLabel, *initCmdPageCount, fnStart, pageOffset)
+		err = initAction(*initCmdLabel, pageLabel, *initCmdPageCount, fnStart, pageOffset, *initCmdTextMode)
 	case "check":
 		checkAction(*checkCmdFiles, *checkCmdTagsFile)
 	case "quote":
