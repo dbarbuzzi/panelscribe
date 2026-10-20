@@ -33,7 +33,7 @@ func buildQuoteGroups(groupCounts string, border string) (string, error) {
 		groups = append(groups, "---")
 	}
 
-	res := fmt.Sprintf("\n%s\n", strings.Join(groups, "\n\n"))
+	res := strings.Join(groups, "\n\n")
 	return res, nil
 }
 

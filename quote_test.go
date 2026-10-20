@@ -20,27 +20,27 @@ func TestBuildQuoteGroupsSuccess(t *testing.T) {
 		{
 			desc:     "short, simple",
 			input:    fields{"21", "top"},
-			expected: "\n---\n\n> \n\n> \n\n---\n\n> \n",
+			expected: "---\n\n> \n\n> \n\n---\n\n> ",
 		},
 		{
 			desc:     "short, simple, bottom",
 			input:    fields{"21", "bottom"},
-			expected: "\n> \n\n> \n\n---\n\n> \n\n---\n",
+			expected: "> \n\n> \n\n---\n\n> \n\n---",
 		},
 		{
 			desc:     "short, simple, both",
 			input:    fields{"21", "both"},
-			expected: "\n---\n\n> \n\n> \n\n---\n\n> \n\n---\n",
+			expected: "---\n\n> \n\n> \n\n---\n\n> \n\n---",
 		},
 		{
 			desc:     "short, simple, none",
 			input:    fields{"21", "none"},
-			expected: "\n> \n\n> \n\n---\n\n> \n",
+			expected: "> \n\n> \n\n---\n\n> ",
 		},
 		{
 			desc:     "medium, simple",
 			input:    fields{"2143", "top"},
-			expected: "\n---\n\n> \n\n> \n\n---\n\n> \n\n---\n\n> \n\n> \n\n> \n\n> \n\n---\n\n> \n\n> \n\n> \n",
+			expected: "---\n\n> \n\n> \n\n---\n\n> \n\n---\n\n> \n\n> \n\n> \n\n> \n\n---\n\n> \n\n> \n\n> ",
 		},
 	}
 
