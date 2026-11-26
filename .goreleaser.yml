@@ -33,6 +33,7 @@ brews:
     repository:
       owner: dbarbuzzi
       name: homebrew-tap
+      token: "{{ .Env.PUBLISH_TOKEN }}"
     download_strategy: GitHubPrivateRepositoryReleaseDownloadStrategy
     custom_require: "../custom_download_strategy"
     commit_author:
@@ -50,6 +51,7 @@ scoops:
     repository:
       owner: dbarbuzzi
       name: scoop-bucket
+      token: "{{ .Env.PUBLISH_TOKEN }}"
     commit_author:
       name: dbarbuzzi
       email: dbarbuzzi@gmail.com
