@@ -1,6 +1,10 @@
 name: Test
 
-on: [push, workflow_call]
+on:
+  push:
+    branches:
+      - '*'  # all branches, no tags
+  workflow_call:
 
 env:
   GO_VERSION: ">=1.27"
