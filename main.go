@@ -8,8 +8,8 @@ import (
 
 var version = "dev"
 
-// SmudgeTomlMeta defines the "meta" block in the smudge toml files
-type SmudgeTomlMeta struct {
+// ComicMetadataMeta defines the "meta" block in the comic metadata file
+type ComicMetadataMeta struct {
 	Color     bool     `toml:"color"`
 	Con       bool     `toml:"con"`
 	Pairings  []string `toml:"pairings"`
@@ -17,15 +17,15 @@ type SmudgeTomlMeta struct {
 	Locations []string `toml:"locations"`
 }
 
-// NewSmudgeMeta creates a SmudgeTomlMeta with non-nil empty values
-func NewSmudgeMeta() SmudgeTomlMeta {
+// NewComicMetadataMeta creates a ComicMetadataMeta with non-nil empty values
+func NewComicMetadataMeta() ComicMetadataMeta {
 	ss := []string{}
-	return SmudgeTomlMeta{Pairings: ss, Themes: ss, Locations: ss}
+	return ComicMetadataMeta{Pairings: ss, Themes: ss, Locations: ss}
 }
 
-// SmudgeToml defines the top-level structure of the TOML file
-type SmudgeToml struct {
-	Meta   SmudgeTomlMeta        `toml:"meta"`
+// ComicMetadata defines the top-level structure of the metadata file
+type ComicMetadata struct {
+	Meta   ComicMetadataMeta     `toml:"meta"`
 	Chars  map[string]string     `toml:"chars"`
 	Scenes map[string][][]string `toml:"scenes"`
 }

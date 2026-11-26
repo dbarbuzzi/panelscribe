@@ -1,4 +1,4 @@
-module github.com/dbarbuzzi/smudgetools
+module github.com/dbarbuzzi/panelscribe
 
 require (
 	github.com/BurntSushi/toml v1.6.0

@@ -37,7 +37,7 @@ jobs:
           repositories: |-
             homebrew-tap
             scoop-bucket
-            smudgetools
+            panelscribe
 
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v7
