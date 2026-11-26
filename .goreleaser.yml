@@ -1,9 +1,9 @@
 version: 2
-project_name: smudgetools
+project_name: panelscribe
 release:
   github:
     owner: dbarbuzzi
-    name: smudgetools
+    name: panelscribe
 archives:
   -
     format_overrides:
@@ -17,7 +17,7 @@ snapshot:
   version_template: "{{ .Tag }}-next"
 builds:
   -
-    binary: smudge
+    binary: panelscribe
     ldflags: "-s -w -X main.version={{ .Version }}"
     goos:
       - darwin
@@ -29,7 +29,7 @@ builds:
       - CGO_ENABLED=0
 brews:
   -
-    name: smudgetools
+    name: panelscribe
     repository:
       owner: dbarbuzzi
       name: homebrew-tap
@@ -39,12 +39,12 @@ brews:
       name: dbarbuzzi
       email: dbarbuzzi@gmail.com
     directory: Formula
-    homepage: "https://github.com/dbarbuzzi/smudgetools"
-    description: "Tools for my work with smudge comics"
+    homepage: "https://github.com/dbarbuzzi/panelscribe"
+    description: "Tools for my work with comics"
     test: |
-      system "#{bin}/smudge --version"
+      system "#{bin}/panelscribe --version"
     install: |
-      bin.install "smudge"
+      bin.install "panelscribe"
 scoops:
   -
     repository:
@@ -53,5 +53,5 @@ scoops:
     commit_author:
       name: dbarbuzzi
       email: dbarbuzzi@gmail.com
-    homepage: "https://github.com/dbarbuzzi/smudgetools"
-    description: "Tools for my work with smudge comics"
+    homepage: "https://github.com/dbarbuzzi/panelscribe"
+    description: "Tools for my work with comics"

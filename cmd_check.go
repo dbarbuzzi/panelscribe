@@ -29,9 +29,9 @@ func hasDupes(haystack []string) bool {
 	return false
 }
 
-func loadSmudgeToml(tomlPath string) (SmudgeToml, error) {
+func loadComicMetadata(tomlPath string) (ComicMetadata, error) {
 	// TODO: Decode to a generic map so we can validate existence of keys separately from content
-	res := SmudgeToml{}
+	res := ComicMetadata{}
 	_, err := toml.DecodeFile(tomlPath, &res)
 	return res, err
 }
@@ -42,7 +42,7 @@ func loadAllowedTagsToml(tomlPath string) ([]string, error) {
 	return res.Tags, err
 }
 
-func validateMetaBlock(data SmudgeToml, allowedTags []string) []string {
+func validateMetaBlock(data ComicMetadata, allowedTags []string) []string {
 	results := []string{}
 
 	// validate misc tag lists
@@ -92,7 +92,7 @@ func validateTagList(tagList, allowed []string, name string) []string {
 	return results
 }
 
-func validateCharList(data SmudgeToml) []string {
+func validateCharList(data ComicMetadata) []string {
 	results := []string{}
 
 	// check that it’s not empty
@@ -110,7 +110,7 @@ func validateCharList(data SmudgeToml) []string {
 	return results
 }
 
-func validateSceneList(data SmudgeToml) []string {
+func validateSceneList(data ComicMetadata) []string {
 	results := []string{}
 
 	// check that it’s not empty
@@ -139,7 +139,7 @@ func validateSceneList(data SmudgeToml) []string {
 	return results
 }
 
-func validateSmudgeToml(data SmudgeToml, allowedTags []string) []string {
+func validateComicMetadata(data ComicMetadata, allowedTags []string) []string {
 	results := []string{}
 
 	results = append(results, validateMetaBlock(data, allowedTags)...)
@@ -150,11 +150,11 @@ func validateSmudgeToml(data SmudgeToml, allowedTags []string) []string {
 }
 
 func validateFile(filepath string, allowedTags []string) []string {
-	data, err := loadSmudgeToml(filepath)
+	data, err := loadComicMetadata(filepath)
 	if err != nil {
 		panic(fmt.Sprintf("error: unable to load TOML file: %s", err))
 	}
-	return validateSmudgeToml(data, allowedTags)
+	return validateComicMetadata(data, allowedTags)
 }
 
 func checkAction(tomlFiles []string, allowedTagsFile string) {
