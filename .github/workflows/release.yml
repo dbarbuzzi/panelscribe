@@ -1,12 +1,13 @@
 name: Release
+run-name: Release ${{ github.ref_name }}
 
 on:
   push:
     tags:
-      - v[0-9]+
+      - v[0-9]+.[0-9]+.[0-9]+
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   test:
@@ -15,6 +16,8 @@ jobs:
   goreleaser:
     needs: [test]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout
@@ -25,11 +28,11 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v7
         with:
-          go-version: ">=1.27"
+          go-version-file: go.mod
 
-      - name: Create GitHub app token
+      - name: Create publishing token
         uses: actions/create-github-app-token@v3
-        id: app-token
+        id: publishing-token
         with:
           client-id: ${{ secrets.GORELEASER_APP_CLIENT_ID }}
           private-key: ${{ secrets.GORELEASER_APP_PRIVATE_KEY }}
@@ -37,11 +40,12 @@ jobs:
           repositories: |-
             homebrew-tap
             scoop-bucket
-            panelscribe
+          permission-contents: write
 
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v7
         with:
           args: release --clean
         env:
-          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PUBLISH_TOKEN: ${{ steps.publishing-token.outputs.token }}
